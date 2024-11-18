@@ -1,16 +1,24 @@
-package com.caner.e_ticaret.entities;
+package com.caner.e_ticaret.entities.musteri;
 
+import com.caner.e_ticaret.entities.UrunEntity;
 import com.caner.e_ticaret.enums.Enums;
 import com.caner.e_ticaret.mainEntities.MainEntitiy;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
 @Entity
 @Table(name = "musteri")
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "customer-product",
+                attributeNodes = {
+                        @NamedAttributeNode("urunEntities"),
+                }
+        )
+})
 @Getter
 @Setter
 public class MusteriEntity extends MainEntitiy {
@@ -30,13 +38,14 @@ public class MusteriEntity extends MainEntitiy {
     @Column(name = "e-posta")
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "cinsiyet")
     private Enums.gender enums;
 
     @Column(name = "age")
     private int age;
 
-    @OneToMany(mappedBy = "musteri" , cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL,orphanRemoval = true)
     private List<UrunEntity> urunEntities;
 
 }

@@ -1,5 +1,7 @@
 package com.caner.e_ticaret.entities;
 
+import com.caner.e_ticaret.entities.musteri.MusteriEntity;
+import com.caner.e_ticaret.entities.satici.SellerProductEntity;
 import com.caner.e_ticaret.mainEntities.MainEntitiy;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,23 +13,14 @@ import lombok.Setter;
 @Setter
 public class UrunEntity extends MainEntitiy {
 
-
-    @Column(name = "company_name")
-    private String company_name;
-
-    @Column(name = "company_address_name")
-    private String company_address_name;
-
-    @Column(name = "company_phone_number")
-    private String company_phone_number;
-
-    @Column(name = "company_e_posta")
-    private String company_e_posta;
-
-    @Column(name = "price")
-    private int price;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "musteri_id", nullable = false)
+    private MusteriEntity customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "musteri_id")
-    private MusteriEntity musteri;
+    @JoinColumn(name = "urun_id", nullable = false)
+    private SellerProductEntity product;
+
+    @Column(name = "miktar", nullable = false)
+    private int numberProduct;
 }

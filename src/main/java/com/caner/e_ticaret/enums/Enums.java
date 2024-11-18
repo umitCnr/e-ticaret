@@ -8,8 +8,14 @@ public class Enums {
 
     public enum categories {
         GİYİM,
-        ELEKTRONİK
-
+        ELEKTRONİK,
+        KIRTASİYE,
+        SPOR_EKİPMANLARI,
+        OYUNCAKLAR,
+        KOZMETİK,
+        AKSESUAR,
+        HOBİ,
     }
+
 
 }

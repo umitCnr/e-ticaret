@@ -1,6 +1,6 @@
 package com.caner.e_ticaret.repository;
 
-import com.caner.e_ticaret.entities.MusteriEntity;
+import com.caner.e_ticaret.entities.musteri.MusteriEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
