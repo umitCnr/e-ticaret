@@ -1,6 +1,6 @@
 package com.caner.e_ticaret.entities.satici;
 
-import com.caner.e_ticaret.entities.UrunEntity;
+import com.caner.e_ticaret.entities.ProductEntity;
 import com.caner.e_ticaret.enums.Enums;
 import com.caner.e_ticaret.mainEntities.MainEntitiy;
 import jakarta.persistence.*;
@@ -31,11 +31,14 @@ public class SellerProductEntity extends MainEntitiy {
     @Column(name = "satin_alan")
     private String SoldProductToCustomer;
 
+    @Column(name = "imgUrl")
+    private String imgUrl;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "satici_id")
     private SellerEntity sellerEntity;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UrunEntity> purchases;
+    private List<ProductEntity> purchases;
 }

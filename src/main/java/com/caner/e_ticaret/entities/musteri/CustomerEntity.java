@@ -1,6 +1,7 @@
 package com.caner.e_ticaret.entities.musteri;
 
-import com.caner.e_ticaret.entities.UrunEntity;
+import com.caner.e_ticaret.entities.ProductEntity;
+import com.caner.e_ticaret.entities.satici.SellerInformationEntity;
 import com.caner.e_ticaret.enums.Enums;
 import com.caner.e_ticaret.mainEntities.MainEntitiy;
 import jakarta.persistence.*;
@@ -17,35 +18,33 @@ import java.util.List;
                 attributeNodes = {
                         @NamedAttributeNode("urunEntities"),
                 }
+        ),
+        @NamedEntityGraph(
+                name = "customer-information",
+                attributeNodes = {
+                        @NamedAttributeNode("customerInformationEntity"),
+                }
         )
 })
+
 @Getter
 @Setter
-public class MusteriEntity extends MainEntitiy {
+public class CustomerEntity extends MainEntitiy {
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
-    private String surname;
-
-    @Column(name = "adress")
-    private String adress;
-
-    @Column(name = "phone_number")
-    private String phone_number;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "e-posta")
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "cinsiyet")
-    private Enums.gender enums;
-
-    @Column(name = "age")
-    private int age;
 
     @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<UrunEntity> urunEntities;
+    private List<ProductEntity> urunEntities;
+
+    @OneToOne(mappedBy = "customerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CustomerInformationEntity customerInformationEntity;
 
 }

@@ -18,32 +18,32 @@ import java.util.List;
                 attributeNodes = {
                         @NamedAttributeNode("sellerProductEntities"),
                 }
+        ),
+        @NamedEntityGraph(
+                name = "seller-information",
+                attributeNodes = {
+                        @NamedAttributeNode("sellerInformationEntities")
+                }
         )
 })
+
 public class SellerEntity extends MainEntitiy {
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
-    private String surname;
-
-    @Column(name = "sirket_adi")
-    private String company_name;
-
-    @Column(name = "sirket_adresi")
-    private String company_address;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "cinsiyet")
-    private Enums.gender gender;
-
     @Column(name = "eposta")
     private String email;
 
-    @Column(name = "sirket_telefon")
-    private String phone_number;
+    @Column(name = "password")
+    private String password;
+
 
     @OneToMany(mappedBy = "sellerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     List<SellerProductEntity> sellerProductEntities;
+
+    @OneToOne(mappedBy = "sellerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private SellerInformationEntity sellerInformationEntities;
+
+
 }

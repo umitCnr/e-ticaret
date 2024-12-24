@@ -15,6 +15,8 @@ public class Enums {
         KOZMETİK,
         AKSESUAR,
         HOBİ,
+        ;
+
     }
 
 

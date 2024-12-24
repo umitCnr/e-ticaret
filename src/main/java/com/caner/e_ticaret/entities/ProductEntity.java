@@ -1,6 +1,6 @@
 package com.caner.e_ticaret.entities;
 
-import com.caner.e_ticaret.entities.musteri.MusteriEntity;
+import com.caner.e_ticaret.entities.musteri.CustomerEntity;
 import com.caner.e_ticaret.entities.satici.SellerProductEntity;
 import com.caner.e_ticaret.mainEntities.MainEntitiy;
 import jakarta.persistence.*;
@@ -11,11 +11,11 @@ import lombok.Setter;
 @Table(name = "alinan_urun")
 @Getter
 @Setter
-public class UrunEntity extends MainEntitiy {
+public class ProductEntity extends MainEntitiy {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "musteri_id", nullable = false)
-    private MusteriEntity customer;
+    private CustomerEntity customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "urun_id", nullable = false)
