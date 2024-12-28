@@ -8,7 +8,6 @@ import lombok.Setter;
 public class SellerAndCustomerDto {
 
     private String name;
-    private String mail;
     private String password;
 
 }

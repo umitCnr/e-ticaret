@@ -37,8 +37,9 @@ public class CustomerEntity extends MainEntitiy {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "e-posta")
-    private String email;
+    @Column(name = "role")
+    @Enumerated(value = EnumType.STRING)
+    private Enums.ROLES roles;
 
 
     @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL,orphanRemoval = true)

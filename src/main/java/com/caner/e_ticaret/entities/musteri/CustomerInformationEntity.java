@@ -19,6 +19,9 @@ public class CustomerInformationEntity {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "e-posta") //bunu veri tabanına ekle
+    private String email;
+
     @Column(name = "adress")
     private String adress;
 
