@@ -32,11 +32,13 @@ public class SellerEntity extends MainEntitiy {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "eposta")
-    private String email;
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
+    @Enumerated(value = EnumType.STRING)
+    private Enums.ROLES roles;
 
 
     @OneToMany(mappedBy = "sellerEntity", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -1,26 +1,37 @@
 package com.caner.e_ticaret.Config;
 
+import com.caner.e_ticaret.utils.JwtToken;
+import com.caner.e_ticaret.utils.JwtTokenFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((a) -> a
                 .requestMatchers("/api/admin").hasRole("ADMIN")
-                .requestMatchers("/api/customer/**").hasRole("CUSTOMER")
-                .requestMatchers("/api/seller/**").hasRole("SELLER")
+                .requestMatchers("/api/customer/**").permitAll()
+                .requestMatchers("/seller/**").permitAll()
                 .anyRequest().authenticated()
         )
-                .formLogin(a -> a.permitAll())
-                .logout(a -> a.permitAll());
+                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+                .logout(LogoutConfigurer::permitAll)
+                .csrf(AbstractHttpConfigurer::disable);
 
 
         return http.build();
@@ -30,4 +41,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

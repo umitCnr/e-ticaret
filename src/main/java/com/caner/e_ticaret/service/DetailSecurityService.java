@@ -2,6 +2,7 @@ package com.caner.e_ticaret.service;
 
 import com.caner.e_ticaret.entities.musteri.CustomerEntity;
 import com.caner.e_ticaret.entities.satici.SellerEntity;
+import com.caner.e_ticaret.enums.Enums;
 import com.caner.e_ticaret.repository.ICustomerRepository;
 import com.caner.e_ticaret.repository.IProductRepository;
 import com.caner.e_ticaret.repository.ISellerRepository;
@@ -31,7 +32,7 @@ public class DetailSecurityService implements UserDetailsService {
 
             SellerEntity sellerEntity = sellerEntityOptional.get();
 
-            return User.withUsername(sellerEntity.getEmail())
+            return User.withUsername(sellerEntity.getName())
                     .password(sellerEntity.getPassword())
                     .roles("SELLER")
                     .build();
@@ -43,9 +44,9 @@ public class DetailSecurityService implements UserDetailsService {
 
             CustomerEntity customerEntity = optionalCustomerEntity.get();
 
-            return User.withUsername(customerEntity.getEmail())
+            return User.withUsername(customerEntity.getName())
                     .password(customerEntity.getPassword())
-                    .roles("CUSTOMER")
+                    .roles(Enums.ROLES.CUSTOMER.toString())
                     .build();
         }
 

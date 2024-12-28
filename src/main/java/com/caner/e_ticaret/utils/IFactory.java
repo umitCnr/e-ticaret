@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface IFactory {
 
-    public ResponseEntity<?> save(String mail, String password) throws Exception;
+    public ResponseEntity<?> save(String name, String password) throws Exception;
 
     public ResponseEntity<?> get() throws Exception;
 

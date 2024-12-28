@@ -16,7 +16,13 @@ public class Enums {
         AKSESUAR,
         HOBİ,
         ;
+    }
 
+    public enum ROLES {
+        CUSTOMER,
+        SELLER,
+        ADMIN,
+        ;
     }
 
 

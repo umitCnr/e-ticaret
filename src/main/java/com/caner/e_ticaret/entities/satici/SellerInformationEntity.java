@@ -23,6 +23,8 @@ public class SellerInformationEntity {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "eposta")
+    private String email;
 
     @Column(name = "company_address")
     private String company_address;
