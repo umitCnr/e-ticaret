@@ -1,13 +1,11 @@
 package com.caner.e_ticaret.controller;
 
 import com.caner.e_ticaret.dtos.SellerAndCustomerDto;
+import com.caner.e_ticaret.dtos.UserResponse;
 import com.caner.e_ticaret.entities.satici.SellerEntity;
 import com.caner.e_ticaret.service.SellerService;
-import com.caner.e_ticaret.utils.AutRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +19,11 @@ public class SellerController {
     public ResponseEntity<SellerEntity> save(@RequestBody SellerAndCustomerDto sellerAndCustomerDto) throws Exception {
         System.out.println("yüklenen veri: " + sellerAndCustomerDto.getName() + ", " + sellerAndCustomerDto.getPassword());
         return sellerService.save(sellerAndCustomerDto.getName(), sellerAndCustomerDto.getPassword());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> loginBySeller(@RequestBody SellerAndCustomerDto sellerAndCustomerDto) throws Exception {
+        return ResponseEntity.ok(sellerService.login(sellerAndCustomerDto));
     }
 
 

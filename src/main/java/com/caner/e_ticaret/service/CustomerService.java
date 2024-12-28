@@ -1,20 +1,17 @@
 package com.caner.e_ticaret.service;
 
+import com.caner.e_ticaret.dtos.SellerAndCustomerDto;
+import com.caner.e_ticaret.dtos.UserResponse;
 import com.caner.e_ticaret.entities.musteri.CustomerEntity;
-import com.caner.e_ticaret.enums.Enums;
 import com.caner.e_ticaret.repository.ICustomerRepository;
-import com.caner.e_ticaret.utils.AutRequest;
 import com.caner.e_ticaret.utils.IFactory;
+import com.caner.e_ticaret.utils.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.patterns.HasMemberTypePattern;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,8 +20,8 @@ public class CustomerService implements IFactory {
 
     private final ICustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
-    private final MinioService minioService;
-
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public ResponseEntity<CustomerEntity> save(String name, String password) throws RuntimeException {
@@ -50,12 +47,11 @@ public class CustomerService implements IFactory {
         }
     }
 
-
     @Override
-    public ResponseEntity<String> get() throws Exception {
-
+    public UserResponse login(SellerAndCustomerDto sellerAndCustomerDto) throws Exception {
         return null;
     }
+
 
     @Override
     public ResponseEntity<CustomerEntity> update(Long id) throws Exception {
