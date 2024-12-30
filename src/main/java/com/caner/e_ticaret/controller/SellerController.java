@@ -17,7 +17,6 @@ public class SellerController {
 
     @PostMapping("/save")
     public ResponseEntity<SellerEntity> save(@RequestBody SellerAndCustomerDto sellerAndCustomerDto) throws Exception {
-        System.out.println("yüklenen veri: " + sellerAndCustomerDto.getName() + ", " + sellerAndCustomerDto.getPassword());
         return sellerService.save(sellerAndCustomerDto.getName(), sellerAndCustomerDto.getPassword());
     }
 
