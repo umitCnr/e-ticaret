@@ -61,7 +61,7 @@ public class ApplicationConfig {
             var customer = customerRepository.findByName(username);
 
             if (customer.isPresent()) {
-                return (UserDetails) customer.get();
+                return customer.get();
             }
 
             throw new UsernameNotFoundException("Kullanıcı bulunamadı");

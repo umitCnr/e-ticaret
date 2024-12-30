@@ -1,6 +1,7 @@
 package com.caner.e_ticaret.controller;
 
 import com.caner.e_ticaret.dtos.SellerAndCustomerDto;
+import com.caner.e_ticaret.dtos.UserResponse;
 import com.caner.e_ticaret.entities.musteri.CustomerEntity;
 import com.caner.e_ticaret.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,11 @@ public class CustomerController {
 
     @PostMapping("/save")
     public ResponseEntity<CustomerEntity> save(@RequestBody SellerAndCustomerDto sellerAndCustomerDto) {
-        System.out.println("yüklenen veri :" + sellerAndCustomerDto.getName() + " , " + sellerAndCustomerDto.getPassword());
         return customerService.save(sellerAndCustomerDto.getName(), sellerAndCustomerDto.getPassword());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> get(@RequestBody SellerAndCustomerDto sellerAndCustomerDto) throws Exception {
+        return ResponseEntity.ok(customerService.login(sellerAndCustomerDto));
     }
 }
