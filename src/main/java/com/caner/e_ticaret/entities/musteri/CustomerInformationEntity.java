@@ -19,7 +19,7 @@ public class CustomerInformationEntity {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "e-posta") //bunu veri tabanına ekle
+    @Column(name = "e-posta")
     private String email;
 
     @Column(name = "adress")

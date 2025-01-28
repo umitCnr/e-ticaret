@@ -59,7 +59,7 @@ public class CustomerEntity extends MainEntitiy implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return name;
     }
 
     @Override

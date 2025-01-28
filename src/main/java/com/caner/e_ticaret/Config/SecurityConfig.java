@@ -30,7 +30,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((a) -> a
                 .requestMatchers("/api/admin").hasRole("ADMIN")
-                .requestMatchers("/customer/save","/customer/login").permitAll()
+                .requestMatchers("/customer/**").permitAll()
                 .requestMatchers("/seller/**").permitAll()
                 .anyRequest().authenticated()
         )

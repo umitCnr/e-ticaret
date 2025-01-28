@@ -1,5 +1,6 @@
 package com.caner.e_ticaret.utils;
 
+import com.caner.e_ticaret.dtos.SellerAndCustomerDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 /* TODO  token içerisinde parse edip kullanılması için ya da token generate edilmesi için bir service sınıfı oluşturuyoruz */
@@ -23,6 +25,7 @@ public class JwtService {
     private String SECRET_KEY;
 
     //Buraya gelen token Claims de subject bölümünden username i çekilmesini sağlıyor
+    //tokendan username i çekmek için kullanıyoruz
     public String findUsername(String token) {
 
         return exportToken(token, Claims::getSubject);
@@ -31,7 +34,8 @@ public class JwtService {
     private <T> T exportToken(String token, Function<Claims, T> claimsTFunction) {
         final Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getKey()) //oluşturulan tokenın secret key kısmını oluşturuyoruz
-                .build().parseClaimsJws(token).getBody(); // burda token ı parse ettik
+                .build()
+                .parseClaimsJws(token).getBody(); // burda token ı parse ettik
         return claimsTFunction.apply(claims); //böylece findUsername burda oluşturulan subject name'i almış olacaz
     }
 
