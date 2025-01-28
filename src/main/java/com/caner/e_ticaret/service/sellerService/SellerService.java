@@ -1,4 +1,4 @@
-package com.caner.e_ticaret.service;
+package com.caner.e_ticaret.service.sellerService;
 
 import com.caner.e_ticaret.dtos.SellerAndCustomerDto;
 import com.caner.e_ticaret.dtos.UserResponse;

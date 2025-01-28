@@ -46,7 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         username = jwtService.findUsername(jwt); // username i JwtService den alıyoruz.
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            /** var olan username değişkeni
+            /**
+             * var olan username değişkeni
              * null mı onu kontrol ediyoruz eğer null değilse userdetail
              * sınıfının username metodu çağırıcaz ve springe aktarmış olacaz
              **/

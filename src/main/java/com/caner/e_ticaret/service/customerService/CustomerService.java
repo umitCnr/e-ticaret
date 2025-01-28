@@ -1,4 +1,4 @@
-package com.caner.e_ticaret.service;
+package com.caner.e_ticaret.service.customerService;
 
 import com.caner.e_ticaret.dtos.SellerAndCustomerDto;
 import com.caner.e_ticaret.dtos.UserResponse;
@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.Optional;
 
 @Service
@@ -85,4 +86,28 @@ public class CustomerService implements IFactory {
     public ResponseEntity<CustomerEntity> update(Long id) throws Exception {
         return null;
     }
+
+    public CustomerEntity getInformationCustomer(String token) {
+
+
+        String jwt = token;
+        if (token.startsWith("Bearer ")) {
+            jwt = token.substring(7); // Bearer kısmını atla
+        } else {
+            throw new RuntimeException("Token formatı yanlış.");
+        }
+
+        String username = jwtService.findUsername(jwt);
+
+        if (username == null || username.isEmpty()) {
+            throw new RuntimeException("Kullanıcı adı token içinde bulunamadı.");
+        }
+
+        Optional<CustomerEntity> customerEntityOptional = customerRepository.findByName(username);
+
+        return customerEntityOptional.orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı: " + username));
+    }
+
+
+
 }

@@ -3,7 +3,7 @@ package com.caner.e_ticaret.controller;
 import com.caner.e_ticaret.dtos.SellerAndCustomerDto;
 import com.caner.e_ticaret.dtos.UserResponse;
 import com.caner.e_ticaret.entities.satici.SellerEntity;
-import com.caner.e_ticaret.service.SellerService;
+import com.caner.e_ticaret.service.sellerService.SellerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
