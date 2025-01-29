@@ -59,7 +59,7 @@ public class CustomerInformationController {
         try {
             return customerInformationService.deleteInformation(token, file);
         } catch (Exception e) {
-            System.out.println("Resim Silinemedi");
+            System.out.println("Resim Silinemedi ->");
             return null;
         }
     }
