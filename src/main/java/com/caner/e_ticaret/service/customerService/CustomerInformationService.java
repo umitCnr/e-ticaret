@@ -5,35 +5,31 @@ import com.caner.e_ticaret.entities.musteri.CustomerEntity;
 import com.caner.e_ticaret.entities.musteri.CustomerInformationEntity;
 import com.caner.e_ticaret.repository.ICustomerRepository;
 import com.caner.e_ticaret.service.MinioService;
+import com.caner.e_ticaret.utils.IGetTokenAndFile;
 import com.caner.e_ticaret.utils.InformationFactory;
-import com.caner.e_ticaret.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.Base64;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerInformationService implements InformationFactory {
+public class CustomerInformationService implements InformationFactory, IGetTokenAndFile {
 
 
     private final MinioService minioService;
-    private final JwtService jwtService;
     private final ICustomerRepository customerRepository;
-
 
     @Override
     public CustomerEntity saveInformation(String token, InformationDto informationDto, MultipartFile file) {
 
-        String jwt = token.substring(7);
-        String jwt_control = jwtService.findUsername(jwt);
 
-        Optional<CustomerEntity> customerEntity = customerRepository.findByName(jwt_control);
+        Optional<CustomerEntity> customerEntity = customerRepository.findByName(getToken(token));
         if (customerEntity.isEmpty()) {
-            throw new RuntimeException("Kullanıcı bulunamadı: " + jwt_control);
+            throw new RuntimeException("Kullanıcı bulunamadı: ");
         }
 
         CustomerEntity customerEntity1 = customerEntity.get();
@@ -67,7 +63,18 @@ public class CustomerInformationService implements InformationFactory {
     }
 
     @Override
-    public ResponseEntity<?> getInformation(String token) {
+    public CustomerEntity getInformation(String token,InformationDto informationDto, MultipartFile file) {
+
+
+        Optional<CustomerEntity> customerEntity = customerRepository.findByName(getToken(token));
+        if (customerEntity.isEmpty()) {
+            throw new RuntimeException("Kullanıcı bulunamadı: " );
+        }
+        CustomerEntity customerEntity1 = customerEntity.get();
+        CustomerInformationEntity customerInformationEntity = customerEntity1.getCustomerInformationEntity();
+
+
+
         return null;
     }
 
@@ -77,7 +84,8 @@ public class CustomerInformationService implements InformationFactory {
     }
 
     @Override
-    public InformationDto deleteInformation(String token) {
+    public InformationDto deleteInformation(String token,long id) {
         return null;
     }
+
 }

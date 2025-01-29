@@ -8,10 +8,10 @@ public interface InformationFactory {
 
     <T> CustomerEntity saveInformation(String token, InformationDto informationDto, MultipartFile file);
 
-    <T> T getInformation(String token);
+    <T> T getInformation(String token,InformationDto informationDto, MultipartFile file);
 
     <T> T UpdateInformation(String token, InformationFactory informationFactory);
 
-    <T> T deleteInformation(String token);
+    <T> T deleteInformation(String token,long id);
 
 }
