@@ -28,4 +28,17 @@ public class CustomerInformationController {
             return null;
         }
     }
+
+    @PostMapping("/get")
+    public InformationDto get(@RequestHeader("Authorization") String token) {
+
+        try {
+            return customerInformationService.getInformation(token);
+        }catch (Exception e){
+            System.out.println("veri getirilirken hata oluştı ->Controller");
+            return null;
+        }
+
+
+    }
 }

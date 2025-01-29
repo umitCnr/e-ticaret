@@ -8,7 +8,7 @@ public interface InformationFactory {
 
     <T> CustomerEntity saveInformation(String token, InformationDto informationDto, MultipartFile file);
 
-    <T> T getInformation(String token,InformationDto informationDto, MultipartFile file);
+    <T> T getInformation(String token);
 
     <T> T UpdateInformation(String token, InformationFactory informationFactory);
 

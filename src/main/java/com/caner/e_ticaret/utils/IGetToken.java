@@ -1,10 +1,8 @@
 package com.caner.e_ticaret.utils;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 
-public interface IGetTokenAndFile {
+public interface IGetToken {
 
     default String getToken(String token){
 
