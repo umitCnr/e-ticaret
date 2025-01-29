@@ -30,10 +30,10 @@ public class CustomerInformationEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "cinsiyet")
-    private Enums.gender enums;
+    private Enums.gender gender;
 
     @Column(name = "age")
-    private int age;
+    private Integer age;
 
     @Column(name = "img_url")
     private String imgUrl;
