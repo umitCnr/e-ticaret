@@ -122,7 +122,6 @@ public class CustomerInformationService implements InformationFactory, IGetToken
             }
         }
 
-
         if (dto.getAddress() != null) {
             customerInformationEntity.setAdress(dto.getAddress());
         }
@@ -142,7 +141,6 @@ public class CustomerInformationService implements InformationFactory, IGetToken
             customerInformationEntity.setSurname(dto.getSurname());
         }
 
-
         customerRepository.save(customerEntity1);
 
         return dto;
@@ -150,8 +148,29 @@ public class CustomerInformationService implements InformationFactory, IGetToken
 
 
     @Override
-    public InformationDto deleteInformation(String token) {
-        return null;
-    }
+    public CustomerEntity deleteInformation(String token, MultipartFile file) {
 
+        Optional<CustomerEntity> customerEntity = customerRepository.findByName(getToken(token));
+        if (customerEntity.isEmpty()) {
+            throw new RuntimeException("Kullanıcı bulunamadı: ");
+        }
+
+        CustomerEntity customerEntity1 = customerEntity.get();
+        CustomerInformationEntity customerInformationEntity = customerEntity1.getCustomerInformationEntity();
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                if (customerInformationEntity.getImgUrl() != null) {
+                    minioService.deleteFile(customerInformationEntity.getImgUrl());
+
+                    customerInformationEntity.setImgUrl(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Resim silinirken bir hata oluştu: " + e.getMessage());
+            }
+        }
+
+        return customerRepository.save(customerEntity1);
+    }
 }
