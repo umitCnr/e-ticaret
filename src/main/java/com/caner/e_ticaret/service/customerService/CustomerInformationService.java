@@ -5,7 +5,8 @@ import com.caner.e_ticaret.entities.musteri.CustomerEntity;
 import com.caner.e_ticaret.entities.musteri.CustomerInformationEntity;
 import com.caner.e_ticaret.repository.ICustomerRepository;
 import com.caner.e_ticaret.service.MinioService;
-import com.caner.e_ticaret.utils.IGetTokenAndFile;
+import com.caner.e_ticaret.utils.Base64Img;
+import com.caner.e_ticaret.utils.IGetToken;
 import com.caner.e_ticaret.utils.InformationFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerInformationService implements InformationFactory, IGetTokenAndFile {
+public class CustomerInformationService  implements InformationFactory, IGetToken  {
 
 
     private final MinioService minioService;
     private final ICustomerRepository customerRepository;
+    private final Base64Img base64Img;
+
+
 
     @Override
     public CustomerEntity saveInformation(String token, InformationDto informationDto, MultipartFile file) {
@@ -63,8 +67,9 @@ public class CustomerInformationService implements InformationFactory, IGetToken
     }
 
     @Override
-    public CustomerEntity getInformation(String token,InformationDto informationDto, MultipartFile file) {
+    public InformationDto getInformation(String token) {
 
+        InformationDto informationDto = new InformationDto();
 
         Optional<CustomerEntity> customerEntity = customerRepository.findByName(getToken(token));
         if (customerEntity.isEmpty()) {
@@ -73,10 +78,19 @@ public class CustomerInformationService implements InformationFactory, IGetToken
         CustomerEntity customerEntity1 = customerEntity.get();
         CustomerInformationEntity customerInformationEntity = customerEntity1.getCustomerInformationEntity();
 
+        String base64 = base64Img.base64ToImg(customerInformationEntity.getImgUrl());
 
+        informationDto.setImgUrl(base64);
+        informationDto.setAddress(customerInformationEntity.getAdress());
+        informationDto.setAge(customerInformationEntity.getAge());
+        informationDto.setSurname(customerInformationEntity.getSurname());
+        informationDto.setId(customerInformationEntity.getId());
+        informationDto.setPhoneNumber(customerInformationEntity.getPhone_number());
 
-        return null;
+        return informationDto;
     }
+
+
 
     @Override
     public ResponseEntity<?> UpdateInformation(String token, InformationFactory informationFactory) {
