@@ -9,6 +9,7 @@ import com.caner.e_ticaret.service.MinioService;
 import com.caner.e_ticaret.utils.Base64Img;
 import com.caner.e_ticaret.utils.IGetToken;
 import com.caner.e_ticaret.utils.InformationFactory;
+import com.caner.e_ticaret.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,13 +27,23 @@ public class CustomerInformationService implements InformationFactory, IGetToken
     private final MinioService minioService;
     private final ICustomerRepository customerRepository;
     private final Base64Img base64Img;
+    private final JwtService jwtService;
 
 
     @Override
-    public CustomerEntity saveInformation(String token, InformationDto informationDto, MultipartFile file) {
+    public CustomerEntity saveInformation(String token, InformationDto informationDto) {
 
 
-        Optional<CustomerEntity> customerEntity = customerRepository.findByName(getToken(token));
+        String jwt = token;
+        if (token.startsWith("Bearer ")) {
+            jwt = token.substring(7); // Bearer kısmını atla
+        } else {
+            throw new RuntimeException("Token formatı yanlış.");
+        }
+
+        String username = jwtService.findUsername(jwt);
+
+        Optional<CustomerEntity> customerEntity = customerRepository.findByName(username);
         if (customerEntity.isEmpty()) {
             throw new RuntimeException("Kullanıcı bulunamadı: ");
         }
@@ -46,20 +57,20 @@ public class CustomerInformationService implements InformationFactory, IGetToken
             customerEntity1.setCustomerInformationEntity(customerInformationEntity);
         }
 
-        try {
+       /* try {
             String path = customerEntity1.getName();
             MultipartFile uploadedFile = minioService.saveFile(file, path);
             informationDto.setImgUrl(path + "/" + uploadedFile.getOriginalFilename());
         } catch (Exception e) {
             throw new RuntimeException("Dosya yüklenirken bir hata oluştu.", e);
-        }
+        } */
 
         customerInformationEntity.setSurname(informationDto.getSurname());
         customerInformationEntity.setAdress(informationDto.getAddress());
         customerInformationEntity.setAge(informationDto.getAge());
         customerInformationEntity.setEmail(informationDto.getEmail());
         customerInformationEntity.setPhone_number(informationDto.getPhoneNumber());
-        customerInformationEntity.setImgUrl(informationDto.getImgUrl());
+       // customerInformationEntity.setImgUrl(informationDto.getImgUrl());
         customerInformationEntity.setId(informationDto.getId());
         customerInformationEntity.setGender(informationDto.getGender());
 

@@ -19,12 +19,12 @@ public class CustomerInformationController {
     @PostMapping("/save")
     public CustomerEntity save(@RequestHeader("Authorization") String token
             , @RequestBody InformationDto informationDto
-            , @RequestParam MultipartFile file) {
+            ) {
 
         try {
-            return customerInformationService.saveInformation(token, informationDto, file);
+            return customerInformationService.saveInformation(token, informationDto);
         } catch (Exception e) {
-            System.out.println("veri yüklenirken hata oluştı ->Controller");
+            System.out.println("veri yüklenirken hata oluştı ->Controller" + e);
             return null;
         }
     }
