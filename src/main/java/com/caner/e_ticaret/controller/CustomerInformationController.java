@@ -19,26 +19,48 @@ public class CustomerInformationController {
     @PostMapping("/save")
     public CustomerEntity save(@RequestHeader("Authorization") String token
             , @RequestBody InformationDto informationDto
-            , @RequestParam MultipartFile file) {
+            ) {
 
         try {
-            return customerInformationService.saveInformation(token, informationDto, file);
+            return customerInformationService.saveInformation(token, informationDto);
         } catch (Exception e) {
-            System.out.println("veri yüklenirken hata oluştı ->Controller");
+            System.out.println("veri yüklenirken hata oluştı ->Controller" + e);
             return null;
         }
     }
 
-    @PostMapping("/get")
+    @GetMapping("/get")
     public InformationDto get(@RequestHeader("Authorization") String token) {
 
         try {
             return customerInformationService.getInformation(token);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("veri getirilirken hata oluştı ->Controller");
             return null;
         }
+    }
 
+    @PutMapping("/update")
+    public InformationDto update(@RequestHeader("Authorization") String token,
+                                 @RequestBody InformationDto dto,
+                                 @RequestParam MultipartFile file) {
+        try {
+            return customerInformationService.UpdateInformation(token, dto, file);
+        } catch (Exception e) {
+            System.out.println("data güncellenemedi");
+            return null;
+        }
 
+    }
+
+    @DeleteMapping("/delete")
+    public CustomerEntity delete(@RequestHeader("Authorization") String token,
+                                 @RequestParam MultipartFile file) {
+        try {
+            return customerInformationService.deleteInformation(token, file);
+        } catch (Exception e) {
+            System.out.println("Resim Silinemedi ->");
+            return null;
+        }
     }
 }

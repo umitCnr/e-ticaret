@@ -8,12 +8,12 @@ import java.io.IOException;
 
 public interface InformationFactory {
 
-    <T> CustomerEntity saveInformation(String token, InformationDto informationDto, MultipartFile file);
+    <T> CustomerEntity saveInformation(String token, InformationDto informationDto);
 
     <T> T getInformation(String token);
 
     <T> T UpdateInformation(String token, InformationDto dto, MultipartFile file) throws IOException;
 
-    <T> T deleteInformation(String token);
+    <T> T deleteInformation(String token, MultipartFile file);
 
 }
