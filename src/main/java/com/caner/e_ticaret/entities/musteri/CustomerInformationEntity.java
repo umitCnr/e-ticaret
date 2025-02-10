@@ -1,6 +1,8 @@
 package com.caner.e_ticaret.entities.musteri;
 
 import com.caner.e_ticaret.enums.Enums;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,5 +42,6 @@ public class CustomerInformationEntity {
 
     @JoinColumn(name = "customer_id")
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private CustomerEntity customerEntity;
 }

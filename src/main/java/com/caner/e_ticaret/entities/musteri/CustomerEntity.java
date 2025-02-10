@@ -4,6 +4,7 @@ import com.caner.e_ticaret.entities.ProductEntity;
 import com.caner.e_ticaret.entities.satici.SellerInformationEntity;
 import com.caner.e_ticaret.enums.Enums;
 import com.caner.e_ticaret.mainEntities.MainEntitiy;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,6 +51,7 @@ public class CustomerEntity extends MainEntitiy implements UserDetails {
     private List<ProductEntity> urunEntities;
 
     @OneToOne(mappedBy = "customerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private CustomerInformationEntity customerInformationEntity;
 
     @Override
