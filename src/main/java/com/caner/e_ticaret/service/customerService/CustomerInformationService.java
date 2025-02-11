@@ -3,25 +3,21 @@ package com.caner.e_ticaret.service.customerService;
 import com.caner.e_ticaret.dtos.InformationDto;
 import com.caner.e_ticaret.entities.musteri.CustomerEntity;
 import com.caner.e_ticaret.entities.musteri.CustomerInformationEntity;
-import com.caner.e_ticaret.enums.Enums;
 import com.caner.e_ticaret.repository.ICustomerRepository;
 import com.caner.e_ticaret.service.MinioService;
 import com.caner.e_ticaret.utils.Base64Img;
-import com.caner.e_ticaret.utils.IGetToken;
 import com.caner.e_ticaret.utils.InformationFactory;
 import com.caner.e_ticaret.utils.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerInformationService implements InformationFactory, IGetToken {
+public class CustomerInformationService implements InformationFactory {
 
 
     private final MinioService minioService;
@@ -31,19 +27,24 @@ public class CustomerInformationService implements InformationFactory, IGetToken
 
 
     @Override
-    public CustomerEntity saveInformation(String token, InformationDto informationDto) {
-
-
+    public String tokens(String token) {
         String jwt = token;
         if (token.startsWith("Bearer ")) {
-            jwt = token.substring(7); // Bearer kısmını atla
+            jwt = token.substring(7);
         } else {
             throw new RuntimeException("Token formatı yanlış.");
         }
 
         String username = jwtService.findUsername(jwt);
 
-        Optional<CustomerEntity> customerEntity = customerRepository.findByName(username);
+        return username;
+    }
+
+
+    @Override
+    public CustomerEntity saveInformation(String token, InformationDto informationDto,MultipartFile file) {
+
+        Optional<CustomerEntity> customerEntity = customerRepository.findByName(tokens(token));
         if (customerEntity.isEmpty()) {
             throw new RuntimeException("Kullanıcı bulunamadı: ");
         }
@@ -57,20 +58,20 @@ public class CustomerInformationService implements InformationFactory, IGetToken
             customerEntity1.setCustomerInformationEntity(customerInformationEntity);
         }
 
-       /* try {
+        try {
             String path = customerEntity1.getName();
             MultipartFile uploadedFile = minioService.saveFile(file, path);
             informationDto.setImgUrl(path + "/" + uploadedFile.getOriginalFilename());
         } catch (Exception e) {
             throw new RuntimeException("Dosya yüklenirken bir hata oluştu.", e);
-        } */
+        }
 
         customerInformationEntity.setSurname(informationDto.getSurname());
         customerInformationEntity.setAdress(informationDto.getAddress());
         customerInformationEntity.setAge(informationDto.getAge());
         customerInformationEntity.setEmail(informationDto.getEmail());
         customerInformationEntity.setPhone_number(informationDto.getPhoneNumber());
-       // customerInformationEntity.setImgUrl(informationDto.getImgUrl());
+        customerInformationEntity.setImgUrl(informationDto.getImgUrl());
         customerInformationEntity.setId(informationDto.getId());
         customerInformationEntity.setGender(informationDto.getGender());
 
@@ -84,7 +85,7 @@ public class CustomerInformationService implements InformationFactory, IGetToken
 
         InformationDto informationDto = new InformationDto();
 
-        Optional<CustomerEntity> customerEntity = customerRepository.findByName(getToken(token));
+        Optional<CustomerEntity> customerEntity = customerRepository.findByName(tokens(token));
         if (customerEntity.isEmpty()) {
             throw new RuntimeException("Kullanıcı bulunamadı: ");
         }
@@ -108,7 +109,8 @@ public class CustomerInformationService implements InformationFactory, IGetToken
     @Override
     public InformationDto UpdateInformation(String token, InformationDto dto, MultipartFile file) throws IOException {
 
-        Optional<CustomerEntity> customerEntity = customerRepository.findByName(getToken(token));
+
+        Optional<CustomerEntity> customerEntity = customerRepository.findByName(tokens(token));
         if (customerEntity.isEmpty()) {
             throw new RuntimeException("Kullanıcı bulunamadı: ");
         }
@@ -161,7 +163,7 @@ public class CustomerInformationService implements InformationFactory, IGetToken
     @Override
     public CustomerEntity deleteInformation(String token, MultipartFile file) {
 
-        Optional<CustomerEntity> customerEntity = customerRepository.findByName(getToken(token));
+        Optional<CustomerEntity> customerEntity = customerRepository.findByName(tokens(token));
         if (customerEntity.isEmpty()) {
             throw new RuntimeException("Kullanıcı bulunamadı: ");
         }

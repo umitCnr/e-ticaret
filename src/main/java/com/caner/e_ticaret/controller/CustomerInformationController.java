@@ -1,11 +1,11 @@
 package com.caner.e_ticaret.controller;
 
+import com.caner.e_ticaret.dtos.ImgDto;
 import com.caner.e_ticaret.dtos.InformationDto;
 import com.caner.e_ticaret.entities.musteri.CustomerEntity;
 import com.caner.e_ticaret.service.customerService.CustomerInformationService;
+import com.caner.e_ticaret.service.customerService.CustomerMinioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,14 +15,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class CustomerInformationController {
 
     private final CustomerInformationService customerInformationService;
+    private final CustomerMinioService customerMinioService;
 
     @PostMapping("/save")
-    public CustomerEntity save(@RequestHeader("Authorization") String token
-            , @RequestBody InformationDto informationDto
-            ) {
+    public CustomerEntity save(@RequestHeader("Authorization") String token,
+                               @RequestPart InformationDto informationDto,
+                               @RequestParam MultipartFile file
+    ) {
 
         try {
-            return customerInformationService.saveInformation(token, informationDto);
+            return customerInformationService.saveInformation(token, informationDto, file);
         } catch (Exception e) {
             System.out.println("veri yüklenirken hata oluştı ->Controller" + e);
             return null;
@@ -62,5 +64,47 @@ public class CustomerInformationController {
             System.out.println("Resim Silinemedi ->");
             return null;
         }
+    }
+
+    @PostMapping("/saveImg")
+    public ImgDto saveImg(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token) {
+
+        try {
+
+            return customerMinioService.saveImage(file, token);
+        } catch (Exception e) {
+            System.out.println("resim yüklenemedi:" + e);
+            return null;
+
+        }
+    }
+
+    @GetMapping("/getImg")
+    public ImgDto getImg(@RequestHeader("Authorization") String token){
+        try {
+
+            return customerMinioService.getImage(token);
+        } catch (Exception e) {
+            System.out.println("gelmedi:" + e);
+            return null;
+
+        }
+    }
+
+    @DeleteMapping("/deleteImg")
+    public String deleteImg(@RequestHeader("Authorization") String token){
+
+        try {
+            customerMinioService.deleteImage(token);
+
+            return "resim silindi";
+
+
+        } catch (Exception e) {
+
+            System.out.println("silinemedi:" + e);
+
+        }
+        return "resim silinemedi";
     }
 }
