@@ -8,7 +8,9 @@ import java.io.IOException;
 
 public interface InformationFactory {
 
-    <T> CustomerEntity saveInformation(String token, InformationDto informationDto);
+     String tokens (String token);
+
+    <T> CustomerEntity saveInformation(String token, InformationDto informationDto,MultipartFile file);
 
     <T> T getInformation(String token);
 

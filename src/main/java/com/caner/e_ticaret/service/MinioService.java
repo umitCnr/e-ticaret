@@ -62,7 +62,7 @@ public class MinioService {
         }
     }
 
-    public byte[] deleteFile(String fileName) throws IOException {
+    public void  deleteFile(String fileName) throws IOException {
 
         try {
 
@@ -75,7 +75,7 @@ public class MinioService {
 
             throw new IllegalStateException("The file cannot be delete on the internal storage. Please retry later", e);
         }
-        return new byte[0];
+
     }
 
 }

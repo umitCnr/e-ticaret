@@ -25,7 +25,9 @@ public class CustomerInformationService implements InformationFactory {
     private final Base64Img base64Img;
     private final JwtService jwtService;
 
-    private String tokens (String token){
+
+    @Override
+    public String tokens(String token) {
         String jwt = token;
         if (token.startsWith("Bearer ")) {
             jwt = token.substring(7);
@@ -40,7 +42,7 @@ public class CustomerInformationService implements InformationFactory {
 
 
     @Override
-    public CustomerEntity saveInformation(String token, InformationDto informationDto) {
+    public CustomerEntity saveInformation(String token, InformationDto informationDto,MultipartFile file) {
 
         Optional<CustomerEntity> customerEntity = customerRepository.findByName(tokens(token));
         if (customerEntity.isEmpty()) {
@@ -56,20 +58,20 @@ public class CustomerInformationService implements InformationFactory {
             customerEntity1.setCustomerInformationEntity(customerInformationEntity);
         }
 
-       /* try {
+        try {
             String path = customerEntity1.getName();
             MultipartFile uploadedFile = minioService.saveFile(file, path);
             informationDto.setImgUrl(path + "/" + uploadedFile.getOriginalFilename());
         } catch (Exception e) {
             throw new RuntimeException("Dosya yüklenirken bir hata oluştu.", e);
-        } */
+        }
 
         customerInformationEntity.setSurname(informationDto.getSurname());
         customerInformationEntity.setAdress(informationDto.getAddress());
         customerInformationEntity.setAge(informationDto.getAge());
         customerInformationEntity.setEmail(informationDto.getEmail());
         customerInformationEntity.setPhone_number(informationDto.getPhoneNumber());
-       // customerInformationEntity.setImgUrl(informationDto.getImgUrl());
+        customerInformationEntity.setImgUrl(informationDto.getImgUrl());
         customerInformationEntity.setId(informationDto.getId());
         customerInformationEntity.setGender(informationDto.getGender());
 
