@@ -39,7 +39,7 @@ public class MinioService {
 
         } catch (MinioException | InvalidKeyException | NoSuchAlgorithmException e) {
 
-            throw new IllegalStateException("The file cannot be upload on the internal storage. Please retry later", e);
+            throw new IllegalStateException("dosya yüklenemedi -> minioService", e);
         }
 
         return file;
@@ -62,7 +62,7 @@ public class MinioService {
         }
     }
 
-    public void  deleteFile(String fileName) throws IOException {
+    public void deleteFile(String fileName) throws IOException {
 
         try {
 
@@ -71,9 +71,9 @@ public class MinioService {
                     .object(fileName)
                     .build());
 
-        }catch (MinioException | InvalidKeyException | NoSuchAlgorithmException e) {
+        } catch (MinioException | InvalidKeyException | NoSuchAlgorithmException e) {
 
-            throw new IllegalStateException("The file cannot be delete on the internal storage. Please retry later", e);
+            throw new IllegalStateException("dosya silinemedi -> minioService", e);
         }
 
     }
