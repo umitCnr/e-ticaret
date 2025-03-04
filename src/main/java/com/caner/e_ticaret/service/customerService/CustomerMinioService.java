@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 @Service
 public class CustomerMinioService extends ACMinio {
 
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(CustomerMinioService.class);
 
     public CustomerMinioService(JwtService jwtService, MinioService minioService, ICustomerRepository customerRepository) {
         super(jwtService, minioService, customerRepository);
@@ -70,7 +69,7 @@ public class CustomerMinioService extends ACMinio {
                 imgDto.setImg(base64Image);
             }else {
 
-                logger.info("Resim MinIO'da mevcut değildir.");
+              //  logger.info("Resim MinIO'da mevcut değildir.");
                 return null;
             }
 

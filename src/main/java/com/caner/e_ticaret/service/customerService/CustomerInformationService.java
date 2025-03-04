@@ -92,15 +92,13 @@ public class CustomerInformationService implements InformationFactory {
         CustomerEntity customerEntity1 = customerEntity.get();
         CustomerInformationEntity customerInformationEntity = customerEntity1.getCustomerInformationEntity();
 
-        String base64 = base64Img.base64ToImg(customerInformationEntity.getImgUrl());
-
-        informationDto.setImgUrl(base64);
         informationDto.setAddress(customerInformationEntity.getAdress());
         informationDto.setAge(customerInformationEntity.getAge());
         informationDto.setSurname(customerInformationEntity.getSurname());
         informationDto.setId(customerInformationEntity.getId());
         informationDto.setPhoneNumber(customerInformationEntity.getPhone_number());
         informationDto.setGender(customerInformationEntity.getGender());
+        informationDto.setEmail(customerInformationEntity.getEmail());
 
         return informationDto;
     }
