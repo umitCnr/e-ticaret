@@ -42,7 +42,7 @@ public class CustomerInformationService implements InformationFactory {
 
 
     @Override
-    public CustomerEntity saveInformation(String token, InformationDto informationDto,MultipartFile file) {
+    public CustomerEntity saveInformation(String token, InformationDto informationDto) {
 
         Optional<CustomerEntity> customerEntity = customerRepository.findByName(tokens(token));
         if (customerEntity.isEmpty()) {
@@ -58,21 +58,12 @@ public class CustomerInformationService implements InformationFactory {
             customerEntity1.setCustomerInformationEntity(customerInformationEntity);
         }
 
-        try {
-            String path = customerEntity1.getName();
-            MultipartFile uploadedFile = minioService.saveFile(file, path);
-            informationDto.setImgUrl(path + "/" + uploadedFile.getOriginalFilename());
-        } catch (Exception e) {
-            throw new RuntimeException("Dosya yüklenirken bir hata oluştu.", e);
-        }
-
         customerInformationEntity.setSurname(informationDto.getSurname());
         customerInformationEntity.setAdress(informationDto.getAddress());
         customerInformationEntity.setAge(informationDto.getAge());
         customerInformationEntity.setEmail(informationDto.getEmail());
         customerInformationEntity.setPhone_number(informationDto.getPhoneNumber());
         customerInformationEntity.setImgUrl(informationDto.getImgUrl());
-        customerInformationEntity.setId(informationDto.getId());
         customerInformationEntity.setGender(informationDto.getGender());
 
         customerRepository.save(customerEntity1);
