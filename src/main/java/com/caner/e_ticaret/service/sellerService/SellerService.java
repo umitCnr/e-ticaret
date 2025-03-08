@@ -88,7 +88,7 @@ public class SellerService implements IFactory {
 
 
     @Override
-    public ResponseEntity<?> update(Long id) throws Exception {
+    public ResponseEntity<?> update(Long id,String token) throws Exception {
         return null;
     }
 }

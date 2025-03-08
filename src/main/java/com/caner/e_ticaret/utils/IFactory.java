@@ -11,6 +11,6 @@ public interface IFactory {
 
     public UserResponse login(SellerAndCustomerDto sellerAndCustomerDto) throws Exception;
 
-    public ResponseEntity<?> update(Long id) throws Exception;
+    public ResponseEntity<?> update(Long id , String token) throws Exception;
 
 }
