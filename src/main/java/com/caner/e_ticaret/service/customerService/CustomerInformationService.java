@@ -96,7 +96,7 @@ public class CustomerInformationService implements InformationFactory {
 
 
     @Override
-    public InformationDto UpdateInformation(String token, InformationDto dto, MultipartFile file) throws IOException {
+    public InformationDto UpdateInformation(String token, InformationDto dto) throws IOException {
 
 
         Optional<CustomerEntity> customerEntity = customerRepository.findByName(tokens(token));
@@ -107,22 +107,7 @@ public class CustomerInformationService implements InformationFactory {
         CustomerEntity customerEntity1 = customerEntity.get();
         CustomerInformationEntity customerInformationEntity = customerEntity1.getCustomerInformationEntity();
 
-        if (file != null && !file.isEmpty()) {
-            try {
 
-                if (customerInformationEntity.getImgUrl() != null) {
-                    minioService.deleteFile(customerInformationEntity.getImgUrl());
-                }
-                String path = customerEntity1.getName();
-                MultipartFile uploadedFile = minioService.saveFile(file, path);
-                String newImageUrl = path + "/" + uploadedFile.getOriginalFilename();
-
-                customerInformationEntity.setImgUrl(newImageUrl);
-                dto.setImgUrl(newImageUrl);
-            } catch (Exception e) {
-                throw new RuntimeException("Resim güncellenemedi: " + e.getMessage());
-            }
-        }
 
         if (dto.getAddress() != null) {
             customerInformationEntity.setAdress(dto.getAddress());
@@ -148,31 +133,4 @@ public class CustomerInformationService implements InformationFactory {
         return dto;
     }
 
-
-    @Override
-    public CustomerEntity deleteInformation(String token, MultipartFile file) {
-
-        Optional<CustomerEntity> customerEntity = customerRepository.findByName(tokens(token));
-        if (customerEntity.isEmpty()) {
-            throw new RuntimeException("Kullanıcı bulunamadı: ");
-        }
-
-        CustomerEntity customerEntity1 = customerEntity.get();
-        CustomerInformationEntity customerInformationEntity = customerEntity1.getCustomerInformationEntity();
-
-        if (file != null && !file.isEmpty()) {
-            try {
-                if (customerInformationEntity.getImgUrl() != null) {
-                    minioService.deleteFile(customerInformationEntity.getImgUrl());
-
-                    customerInformationEntity.setImgUrl(null);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Resim silinirken bir hata oluştu: " + e.getMessage());
-            }
-        }
-
-        return customerRepository.save(customerEntity1);
-    }
 }

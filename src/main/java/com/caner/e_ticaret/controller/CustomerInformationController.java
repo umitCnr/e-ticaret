@@ -44,10 +44,10 @@ public class CustomerInformationController {
 
     @PutMapping("/update")
     public InformationDto update(@RequestHeader("Authorization") String token,
-                                 @RequestBody InformationDto dto,
-                                 @RequestParam MultipartFile file) {
+                                 @RequestBody InformationDto dto
+                                 ) {
         try {
-            return customerInformationService.UpdateInformation(token, dto, file);
+            return customerInformationService.UpdateInformation(token, dto);
         } catch (Exception e) {
             System.out.println("data güncellenemedi");
             return null;
@@ -55,16 +55,7 @@ public class CustomerInformationController {
 
     }
 
-    @DeleteMapping("/delete")
-    public CustomerEntity delete(@RequestHeader("Authorization") String token,
-                                 @RequestParam MultipartFile file) {
-        try {
-            return customerInformationService.deleteInformation(token, file);
-        } catch (Exception e) {
-            System.out.println("Resim Silinemedi ->");
-            return null;
-        }
-    }
+
 
     @PostMapping("/saveImg")
     public ImgDto saveImg(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token) {

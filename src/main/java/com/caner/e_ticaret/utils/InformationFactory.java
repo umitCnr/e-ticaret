@@ -14,8 +14,8 @@ public interface InformationFactory {
 
     <T> T getInformation(String token);
 
-    <T> T UpdateInformation(String token, InformationDto dto, MultipartFile file) throws IOException;
+    <T> T UpdateInformation(String token, InformationDto dto) throws IOException;
 
-    <T> T deleteInformation(String token, MultipartFile file);
+
 
 }
