@@ -111,6 +111,35 @@ public class CustomerService implements IFactory {
         return customerEntityOptional.orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı: " + username));
     }
 
+    public boolean checkOldPassword(String token, String oldPassword) {
+
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        } else {
+            throw new RuntimeException("Token formatı yanlış.");
+        }
+
+        String username = jwtService.findUsername(token);
+        if (username == null || username.isEmpty()) {
+            throw new RuntimeException("Kullanıcı adı token içinde bulunamadı.");
+        }
+
+
+        Optional<CustomerEntity> customerEntityOptional = customerRepository.findByName(username);
+        if (!customerEntityOptional.isPresent()) {
+            throw new RuntimeException("Kullanıcı bulunamadı.");
+        }
+
+        CustomerEntity customerEntity = customerEntityOptional.get();
+
+        if (passwordEncoder.matches(oldPassword, customerEntity.getPassword())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
 
 }
