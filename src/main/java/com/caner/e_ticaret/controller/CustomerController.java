@@ -30,8 +30,14 @@ public class CustomerController {
 
     @GetMapping("/loginSuccessful")
     public CustomerEntity loginSuccessful(@RequestHeader("Authorization") String token) {
-       return customerService.getInformationCustomer(token);
+        return customerService.getInformationCustomer(token);
 
+    }
+
+    @PostMapping("/uploadPassword")
+    public Boolean passwordChange(@RequestHeader String token, @RequestBody String oldPassword) {
+        boolean match = customerService.checkOldPassword(token, oldPassword);
+        return match;
     }
 
 }

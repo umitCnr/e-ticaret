@@ -69,7 +69,6 @@ public class CustomerMinioService extends ACMinio {
                 imgDto.setImg(base64Image);
             }else {
 
-              //  logger.info("Resim MinIO'da mevcut değildir.");
                 return null;
             }
 
