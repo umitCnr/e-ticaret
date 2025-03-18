@@ -56,7 +56,6 @@ public class CustomerService implements IFactory {
 
     @Override
     public UserResponse login(SellerAndCustomerDto sellerAndCustomerDto) throws Exception {
-
         try {
 
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(sellerAndCustomerDto.getName(), sellerAndCustomerDto.getPassword()));
@@ -83,8 +82,7 @@ public class CustomerService implements IFactory {
 
 
     @Override
-    public ResponseEntity<CustomerEntity> update(Long id ,String token) throws Exception {
-
+    public ResponseEntity<CustomerEntity> update(Long id, String token) throws Exception {
 
 
         return null;
@@ -139,7 +137,33 @@ public class CustomerService implements IFactory {
         }
     }
 
+    public CustomerEntity updatePassword(String token, String password) {
 
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        } else {
+            throw new RuntimeException("Token formatı yanlış.");
+        }
+        String username = jwtService.findUsername(token);
+
+        if (username == null || username.isEmpty()) {
+            throw new RuntimeException("Kullanıcı adı token içinde bulunamadı.");
+        }
+
+        Optional<CustomerEntity> customerEntityOptional = customerRepository.findByName(username);
+        if (!customerEntityOptional.isPresent()) {
+            throw new RuntimeException("Kullanıcı bulunamadı.");
+        }
+
+        CustomerEntity customerEntity = customerEntityOptional.get();
+        String newPassword = passwordEncoder.encode(password);
+        System.out.println("yeni gelen password :"+newPassword);
+        customerEntity.setPassword(newPassword);
+
+        customerRepository.save(customerEntity);
+
+        return customerEntity;
+    }
 
 
 }

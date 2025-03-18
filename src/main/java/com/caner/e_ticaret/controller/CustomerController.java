@@ -35,9 +35,14 @@ public class CustomerController {
     }
 
     @PostMapping("/uploadPassword")
-    public Boolean passwordChange(@RequestHeader String token, @RequestBody String oldPassword) {
+    public Boolean passwordController(@RequestHeader("Authorization")  String token, @RequestBody String oldPassword) {
         boolean match = customerService.checkOldPassword(token, oldPassword);
         return match;
+    }
+
+    @PostMapping("/newPassword")
+    public CustomerEntity passwordChange(@RequestHeader("Authorization")  String token, @RequestBody String newPassword){
+        return  customerService.updatePassword(token,newPassword);
     }
 
 }
