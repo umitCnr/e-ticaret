@@ -29,7 +29,7 @@ public abstract class ACMinio {
         String username = getToken(token);
 
         return customerRepository.findByName(username)
-                .orElseThrow(()->new RuntimeException("kullanıcı bulunamadı"));
+                .orElseThrow(()->new RuntimeException("kullanıcı bulunamadı -> customer"));
     }
 
     protected  CustomerInformationEntity findInformationToCustomer(CustomerEntity customerEntity){

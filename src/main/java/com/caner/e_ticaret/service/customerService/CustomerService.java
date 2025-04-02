@@ -93,7 +93,7 @@ public class CustomerService implements IFactory {
 
         String jwt = token;
         if (token.startsWith("Bearer ")) {
-            jwt = token.substring(7); // Bearer kısmını atla
+            jwt = token.substring(7);
         } else {
             throw new RuntimeException("Token formatı yanlış.");
         }

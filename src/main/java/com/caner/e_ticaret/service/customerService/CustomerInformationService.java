@@ -20,9 +20,7 @@ import java.util.Optional;
 public class CustomerInformationService implements InformationFactory {
 
 
-    private final MinioService minioService;
     private final ICustomerRepository customerRepository;
-    private final Base64Img base64Img;
     private final JwtService jwtService;
 
 
